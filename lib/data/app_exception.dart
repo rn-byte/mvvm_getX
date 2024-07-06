@@ -44,3 +44,7 @@ class RequesTimeoutException extends AppException {
 class ServerException extends AppException {
   ServerException([String? message]) : super(message, 'Internal Server Error');
 }
+
+class InvalidUrlException extends AppException {
+  InvalidUrlException([String? message]) : super(message, 'Invalid Url ');
+}
