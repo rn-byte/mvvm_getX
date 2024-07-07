@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mvvm_getx_flutter/res/colors/app_colors.dart';
+import 'package:mvvm_getx_flutter/res/components/round_button.dart';
+import '../../utils/utils.dart';
+import '../../view_models/controller/login_view_model.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -9,15 +13,16 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  // LoginController loginController = Get.put(LoginController());
+  LoginViewModel loginViewModel = Get.put(LoginViewModel());
 
-  FocusNode emailFocus = FocusNode();
-  FocusNode passFocus = FocusNode();
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        automaticallyImplyLeading: false,
+        title: Text('login'.tr),
         centerTitle: true,
         backgroundColor: Colors.blue,
       ),
@@ -25,107 +30,108 @@ class _LoginViewState extends State<LoginView> {
         margin: const EdgeInsets.all(25),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              TextFormField(
-                // controller: loginController.emailController.value,
-                keyboardType: TextInputType.emailAddress,
-                focusNode: emailFocus,
-                onFieldSubmitted: (value) {
-                  // Utils.fieldFocusChange(context, emailFocus, passFocus);
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Enter your Email',
-                  prefixIcon: Icon(Icons.person_3_outlined),
-                  label: Text('Enter your Email'),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(30),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Obx(
-                () => TextFormField(
-                  // controller: loginController.passController.value,
-                  // obscureText: loginController.visibilityToggle.value,
-                  focusNode: passFocus,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                TextFormField(
+                  controller: loginViewModel.emailController.value,
+                  keyboardType: TextInputType.emailAddress,
+                  focusNode: loginViewModel.emailFocus.value,
+                  onFieldSubmitted: (value) {
+                    Utils.fieldFocusChange(loginViewModel.emailFocus.value,
+                        loginViewModel.passFocus.value, context);
+                  },
                   decoration: InputDecoration(
-                    hintText: 'Enter your Password',
-                    prefixIcon: const Icon(Icons.lock_outline),
-                    suffixIcon: GestureDetector(
-                      onTap: () {
-                        //  loginController.visibilityToggle.value =
-                        // //     !loginController.visibilityToggle.value;
-                        // loginController.setVisibility(
-                        //     loginController.visibilityToggle.value);
-                      },
-                      child: Icon(
-                          // loginController.visibilityToggle.value
-                          //?
-                          Icons.visibility_off
-                          //: Icons.visibility,
-                          ),
-                    ),
-                    label: const Text('Enter your Password'),
+                    hintText: 'email'.tr,
+                    prefixIcon: const Icon(Icons.person_3_outlined),
+                    label: Text('email'.tr),
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(30),
                       ),
                     ),
                   ),
+                  validator: (value) {
+                    if (value.toString().isEmpty) {
+                      return 'email'.tr;
+                    } else {
+                      return null;
+                    }
+                  },
                 ),
-              ),
-              const SizedBox(
-                height: 50,
-              ),
-              Obx(
-                () {
-                  return SizedBox(
-                    height: 50,
-                    width: 280,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor:
-                              WidgetStatePropertyAll(Colors.blue[200])),
-                      onPressed: () {
-                        // loginController.loginApi();
-                        Get.toNamed('/');
-                      },
-                      child:
-                          // loginController.loading.value
-                          //     ? const Center(child: CircularProgressIndicator())
-                          //     :
-                          const Text(
-                        'Login',
-                        style: TextStyle(fontSize: 20),
+                const SizedBox(
+                  height: 20,
+                ),
+                Obx(
+                  () => TextFormField(
+                    controller: loginViewModel.passController.value,
+                    obscureText: loginViewModel.visibilityToggle.value,
+                    focusNode: loginViewModel.passFocus.value,
+                    decoration: InputDecoration(
+                      hintText: 'pass'.tr,
+                      prefixIcon: const Icon(Icons.lock_outline),
+                      suffixIcon: GestureDetector(
+                        onTap: () {
+                          loginViewModel.visibilityToggle.value =
+                              !loginViewModel.visibilityToggle.value;
+                          loginViewModel.setVisibility(
+                              loginViewModel.visibilityToggle.value);
+                        },
+                        child: Icon(
+                          loginViewModel.visibilityToggle.value
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                      ),
+                      label: Text('pass'.tr),
+                      border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(30),
+                        ),
                       ),
                     ),
-                  );
-                },
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Don\'t have an Account? '),
-                  GestureDetector(
-                    onTap: () {
-                      Get.offAndToNamed('/SignupScreen');
+                    validator: (value) {
+                      if (value.toString().isEmpty) {
+                        return 'pass'.tr;
+                      } else {
+                        return null;
+                      }
                     },
-                    child: Text(
-                      'Signup ',
-                      style: TextStyle(color: Colors.blue[500]),
-                    ),
                   ),
-                ],
-              )
-            ],
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
+                RoundButton(
+                  width: 250,
+                  buttonColor: AppColors.primaryButtonColor,
+                  title: 'login'.tr,
+                  onPress: () {
+                    if (_formKey.currentState!.validate()) {
+                      // Get.offAndToNamed('/SignupScreen');
+                    }
+                  },
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Don\'t have an Account?'.tr),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Text(
+                        'signup'.tr,
+                        style: const TextStyle(
+                            color: AppColors.primaryButtonColor),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
