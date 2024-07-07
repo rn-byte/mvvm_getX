@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:mvvm_getx_flutter/data/network/base_api_services.dart';
 import 'package:http/http.dart' as http;
-
 import '../app_exception.dart';
 
 class NetworkApiServices extends BaseApiServices {
@@ -38,18 +37,21 @@ class NetworkApiServices extends BaseApiServices {
       final response = await http
           .post(
             Uri.parse(url),
-            body: jsonEncode(data),
+            body: data,
           )
           .timeout(
             const Duration(seconds: 10),
           );
       responseJson = returnResponse(response);
     } on SocketException {
-      throw InternetException('No Internet Connection');
+      throw InternetException('');
     } on RequesTimeoutException {
       throw RequesTimeoutException();
     } catch (e) {
       throw e.toString();
+    }
+    if (kDebugMode) {
+      print(responseJson);
     }
     return responseJson;
   }
@@ -60,7 +62,8 @@ class NetworkApiServices extends BaseApiServices {
         dynamic responseJson = jsonDecode(response.body);
         return responseJson;
       case 400:
-        throw InvalidUrlException();
+        dynamic responseJson = jsonDecode(response.body);
+        return responseJson;
       default:
         throw FetchDataException();
     }

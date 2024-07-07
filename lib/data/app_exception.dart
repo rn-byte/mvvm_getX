@@ -34,7 +34,8 @@ class InvalidInputException extends AppException {
 }
 
 class InternetException extends AppException {
-  InternetException([String? message]) : super(message, 'No Internet');
+  InternetException([String? message])
+      : super(message, 'No Internet Connection');
 }
 
 class RequesTimeoutException extends AppException {

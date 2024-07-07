@@ -105,14 +105,21 @@ class _LoginViewState extends State<LoginView> {
                 const SizedBox(
                   height: 50,
                 ),
-                RoundButton(
-                  width: 250,
-                  buttonColor: AppColors.primaryButtonColor,
-                  title: 'login'.tr,
-                  onPress: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Get.offAndToNamed('/SignupScreen');
-                    }
+                Obx(
+                  () {
+                    return loginViewModel.loading.value
+                        ? const Center(child: CircularProgressIndicator())
+                        : RoundButton(
+                            width: 250,
+                            buttonColor: AppColors.primaryButtonColor,
+                            title: 'login'.tr,
+                            onPress: () {
+                              if (_formKey.currentState!.validate()) {
+                                loginViewModel.loginApi();
+                                // Get.offAndToNamed('/SignupScreen');
+                              }
+                            },
+                          );
                   },
                 ),
                 const SizedBox(height: 20),
