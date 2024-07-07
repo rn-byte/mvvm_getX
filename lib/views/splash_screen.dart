@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+// ignore: unused_import
 import 'package:mvvm_getx_flutter/res/asset/image_assets.dart';
+import 'package:mvvm_getx_flutter/res/components/internet_exception_widgets.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -11,9 +13,11 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Image(image: AssetImage(ImageAssets.splashScreen)),
+        child: InternetExceptionWidgets(
+          onPress: () {},
+        ),
       ),
     );
   }
