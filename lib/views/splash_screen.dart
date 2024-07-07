@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mvvm_getx_flutter/res/asset/image_assets.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -10,12 +11,9 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
-        child: Text(
-          'Splash Screen',
-          style: Theme.of(context).textTheme.headlineLarge,
-        ),
+        child: Image(image: AssetImage(ImageAssets.splashScreen)),
       ),
     );
   }
