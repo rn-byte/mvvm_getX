@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mvvm_getx_flutter/data/response/status.dart';
+import 'package:mvvm_getx_flutter/res/components/internet_exception_widgets.dart';
 import 'package:mvvm_getx_flutter/res/routes/routes_name.dart';
+import 'package:mvvm_getx_flutter/view_models/controller/home/home_view_model.dart';
 import 'package:mvvm_getx_flutter/view_models/controller/user_preferences/user_preference_view_model.dart';
+
+import '../../res/components/general_exception_widget.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -12,6 +17,13 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   UserPreference userPreference = UserPreference();
+  HomeViewModel homeViewModel = Get.put(HomeViewModel());
+  @override
+  void initState() {
+    homeViewModel.userListApi();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,8 +45,49 @@ class _HomeViewState extends State<HomeView> {
           ),
         ],
       ),
-      body: Center(
-        child: Text('This is Home Screen'.tr),
+      body: Obx(
+        () {
+          switch (homeViewModel.rxRequestStatus.value) {
+            case Status.LOADING:
+              return const Center(child: CircularProgressIndicator());
+
+            case Status.ERROR:
+              if (homeViewModel.error.value == ' No Internet Connection') {
+                return InternetExceptionWidgets(
+                  onPress: () {
+                    homeViewModel.refreshApi();
+                  },
+                );
+              } else {
+                return GeneralExceptionWidget(
+                  onPress: () {
+                    homeViewModel.refreshApi();
+                  },
+                );
+              }
+
+            case Status.COMPLETED:
+              return ListView.builder(
+                itemCount: homeViewModel.userList.value.data!.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundImage: NetworkImage(homeViewModel
+                            .userList.value.data![index].avatar
+                            .toString()),
+                      ),
+                      title: Text(
+                          '${homeViewModel.userList.value.data![index].firstName} ${homeViewModel.userList.value.data![index].lastName}'),
+                      subtitle: Text(homeViewModel
+                          .userList.value.data![index].email
+                          .toString()),
+                    ),
+                  );
+                },
+              );
+          }
+        },
       ),
     );
   }
