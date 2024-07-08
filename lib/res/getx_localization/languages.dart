@@ -16,6 +16,10 @@ class Languages extends Translations {
           'signup': 'Signup',
           'Don\'t have an Account?': 'Don\'t have an Account ? ',
           'Already have an Account?': 'Already have an Account ? ',
+          'NEP': 'Nepali',
+          'ENG': 'English',
+          'dashboard': 'Dashboard',
+          'This is Home Screen': 'This is Home Screen.'
         },
         'np_NEP': {
           'email': 'आफ्नो इमेल दिनुहोस्।',
@@ -29,7 +33,11 @@ class Languages extends Translations {
           'login': 'लगइन',
           'signup': 'साइनअप',
           'Don\'t have an Account?': 'खाता छैन ? ',
-          'Already have an Account?': 'पहिले नै खाता छ ? '
+          'Already have an Account?': 'पहिले नै खाता छ ? ',
+          'NEP': 'नेपाली',
+          'ENG': 'English',
+          'dashboard': 'गृह स्क्रिन',
+          'This is Home Screen': 'यो होम स्क्रिन हो।'
         }
       };
 }

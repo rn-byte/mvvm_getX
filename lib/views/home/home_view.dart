@@ -16,7 +16,7 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Dashboard'),
+        title: Text('dashboard'.tr),
         centerTitle: true,
         backgroundColor: Colors.blue,
         automaticallyImplyLeading: false,
@@ -33,8 +33,8 @@ class _HomeViewState extends State<HomeView> {
           ),
         ],
       ),
-      body: const Center(
-        child: Text('This is Home Screen'),
+      body: Center(
+        child: Text('This is Home Screen'.tr),
       ),
     );
   }

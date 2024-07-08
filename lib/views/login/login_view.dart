@@ -136,7 +136,33 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ),
                   ],
-                )
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Get.updateLocale(const Locale('us', 'US'));
+                      },
+                      child: Text(
+                        'ENG'.tr,
+                        style: const TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: AppColors.primaryButtonColor),
+                      ),
+                    ),
+                    const Text(' / '),
+                    GestureDetector(
+                      onTap: () {
+                        Get.updateLocale(const Locale('np', 'NEP'));
+                      },
+                      child: Text('NEP'.tr,
+                          style: const TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: AppColors.primaryButtonColor)),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
