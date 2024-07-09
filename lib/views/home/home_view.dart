@@ -5,6 +5,7 @@ import 'package:mvvm_getx_flutter/res/components/internet_exception_widgets.dart
 import 'package:mvvm_getx_flutter/res/routes/routes_name.dart';
 import 'package:mvvm_getx_flutter/view_models/controller/home/home_view_model.dart';
 import 'package:mvvm_getx_flutter/view_models/controller/user_preferences/user_preference_view_model.dart';
+import 'package:mvvm_getx_flutter/views/home/widgets/userlist_widget.dart';
 
 import '../../res/components/general_exception_widget.dart';
 
@@ -67,25 +68,7 @@ class _HomeViewState extends State<HomeView> {
               }
 
             case Status.COMPLETED:
-              return ListView.builder(
-                itemCount: homeViewModel.userList.value.data!.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage: NetworkImage(homeViewModel
-                            .userList.value.data![index].avatar
-                            .toString()),
-                      ),
-                      title: Text(
-                          '${homeViewModel.userList.value.data![index].firstName} ${homeViewModel.userList.value.data![index].lastName}'),
-                      subtitle: Text(homeViewModel
-                          .userList.value.data![index].email
-                          .toString()),
-                    ),
-                  );
-                },
-              );
+              return const UserlistWidget();
           }
         },
       ),

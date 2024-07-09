@@ -34,6 +34,7 @@ class LoginViewModel extends GetxController {
       loading.value = false;
       if (value['token'] != null) {
         userPreference.saveUser(USerModel.fromJson(value)).then((onValue) {
+          Get.delete<LoginViewModel>();
           Get.toNamed(RoutesName.homeView);
         }).onError((newError, stackTrace) {
           Utils.snackBar('Token not Saved', newError.toString());
